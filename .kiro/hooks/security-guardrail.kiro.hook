@@ -1,0 +1,24 @@
+---
+name: Elite Security Guardrail
+description: Enforces Zero-Trust security and secret scanning on every change.
+trigger:
+  files: ["**/*"]
+  events: ["change", "save"]
+---
+
+# Elite Security Guardrail
+
+This hook ensures that all changes adhere to the `security-standards.md`.
+
+## Automated Checks
+
+1. **Secret Scanning**: Scan the changed files for potential API keys, tokens, or hardcoded credentials.
+2. **Dependency Vulnerability Check**: If `package.json`, `requirements.txt`, or `go.mod` is changed, run a vulnerability scan (e.g., `npm audit`, `safety check`, or `go list -m all`).
+3. **Permission Review**: Ensure no overly permissive settings are introduced in IaC files (e.g., `0.0.0.0/0` in security groups).
+
+## Action
+
+If any security violation is detected:
+- **Block the change** (if possible in the environment).
+- **Alert the developer** with a detailed explanation of the violation.
+- **Suggest a secure alternative** based on `security-standards.md`.

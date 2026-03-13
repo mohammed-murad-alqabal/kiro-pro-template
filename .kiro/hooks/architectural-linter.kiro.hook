@@ -1,0 +1,24 @@
+---
+name: Elite Architectural Linter
+description: Enforces Clean Architecture and modularity boundaries.
+trigger:
+  files: ["src/**/*", "app/**/*", "lib/**/*"]
+  events: ["change", "save"]
+---
+
+# Elite Architectural Linter
+
+This hook ensures that the codebase remains modular and adheres to `architectural-principles.md`.
+
+## Automated Checks
+
+1. **Layer Violation Check**: Ensure that the Domain layer does not import from the Infrastructure layer.
+2. **Circular Dependency Check**: Detect and prevent circular dependencies between modules.
+3. **Naming Convention Enforcement**: Verify that file and class names follow the project's established patterns (e.g., `*.service.ts`, `*.repository.ts`).
+4. **Complexity Analysis**: Flag functions or classes that exceed defined complexity thresholds (e.g., Cyclomatic Complexity > 10).
+
+## Action
+
+If an architectural violation is detected:
+- **Flag the violation** in the IDE/Chat.
+- **Provide a refactoring suggestion** to align with Clean Architecture principles.

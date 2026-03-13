@@ -1,0 +1,23 @@
+---
+name: Elite Observability Check
+description: Ensures every new feature includes necessary observability instrumentation.
+trigger:
+  files: ["src/services/**/*", "src/api/**/*", "app/api/**/*"]
+  events: ["change", "save"]
+---
+
+# Elite Observability Check
+
+This hook ensures that all new business logic is "Observable by Design" as per `architectural-principles.md`.
+
+## Automated Checks
+
+1. **Logging Check**: Verify that significant functional events are logged with appropriate context.
+2. **Metrics Check**: Ensure that key performance indicators (KPIs) are being tracked (e.g., request count, latency, error rate).
+3. **Tracing Check**: Confirm that OpenTelemetry tracing context is correctly propagated in API handlers and service calls.
+
+## Action
+
+If observability instrumentation is missing:
+- **Warn the developer** that the feature is not "Observable by Design".
+- **Suggest OpenTelemetry snippets** to add the necessary instrumentation.

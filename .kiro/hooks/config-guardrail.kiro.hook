@@ -1,0 +1,40 @@
+```yaml
+name: Config Guardrail
+description: Ensures critical environment variables are present before execution.
+version: 1.0.0
+authors:
+  - Manus AI
+  - Mohammed Murad Al-Qabal
+trigger:
+  on: pre-commit
+  paths:
+    - '**/.env.example'
+    - '**/.env'
+    - '**/*.py'
+    - '**/*.js'
+    - '**/*.ts'
+run:
+  shell: bash
+  command: |
+    #!/bin/bash
+    echo "--- Running Config Guardrail Hook ---"
+
+    # Define critical environment variables that MUST be present
+    REQUIRED_ENV_VARS=("DATABASE_URL" "API_KEY" "AWS_REGION")
+
+    # Check .env file if it exists
+    if [ -f .env ]; then
+        echo "Checking .env for required variables..."
+        for var in "${REQUIRED_ENV_VARS[@]}"; do
+            if ! grep -q "^${var}=" .env; then
+                echo "[BLOCK] Config Violation: Required environment variable \"${var}\" is missing in .env"
+                exit 1
+            fi
+        done
+    else
+        echo "[INFO] .env file not found. Skipping .env check."
+    fi
+
+    echo "[PASS] All critical environment variables are present."
+    exit 0
+```
